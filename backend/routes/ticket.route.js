@@ -1,15 +1,57 @@
-// crm-backend/routes/ticket.route.js
-
 const router = require("express").Router();
 const { authMiddleware } = require("../middlewares/auth");
 const ctrl = require("../controllers/ticket.controller");
+const upload = require("../middlewares/upload");
 
-// Tous les rôles connectés
+/* ===========================
+   LISTE TICKETS (tous rôles)
+=========================== */
 router.get("/", authMiddleware(), ctrl.list);
-router.post("/", authMiddleware(["client", "admin", "support"]), ctrl.create);
 
-router.post("/:id/reply", authMiddleware(), ctrl.reply);
+/* ===========================
+   CRÉATION TICKET
+   (client/admin/support)
+   + Upload fichier
+=========================== */
+router.post(
+  "/", 
+  authMiddleware(["client", "admin", "support"]),
+  upload.single("attachment"),
+  ctrl.create
+);
 
-router.put("/:id/status", authMiddleware(["admin", "support"]), ctrl.updateStatus);
+/* ===========================
+   RÉPONSE À UN TICKET (tous)
+   + upload
+=========================== */
+router.post(
+  "/:id/reply",
+  authMiddleware(),
+  upload.single("attachment"),
+  ctrl.reply
+);
+
+/* ===========================
+   MODIFIER STATUT (admin/support)
+=========================== */
+router.put(
+  "/:id/status",
+  authMiddleware(["admin", "support"]),
+  ctrl.updateStatus
+);
+
+/* ===========================
+   GET UN SEUL TICKET
+=========================== */
+router.get(
+  "/:id",
+  authMiddleware(),
+  ctrl.getOne
+);
+
+router.get("/:id/export/pdf", authMiddleware(), ctrl.exportPDF);
+router.get("/:id/export/csv", authMiddleware(), ctrl.exportCSV);
+router.get("/:id/export/excel", authMiddleware(), ctrl.exportExcel);
+
 
 module.exports = router;

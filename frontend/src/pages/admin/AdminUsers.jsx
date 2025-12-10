@@ -298,7 +298,7 @@ export default function AdminUsers() {
                             className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors"
                           >
                             <Edit3 className="w-4 h-4" />
-                            Modifier
+                            
                           </motion.button>
 
                           <motion.button
@@ -309,7 +309,7 @@ export default function AdminUsers() {
                             className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-colors"
                           >
                             <Trash2 className="w-4 h-4" />
-                            Supprimer
+                            
                           </motion.button>
 
                           <motion.button

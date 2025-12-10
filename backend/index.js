@@ -12,6 +12,8 @@ const prospectRoutes = require("./routes/prospect.route");
 const opportunityRoutes = require("./routes/opportunity.route");
 const clientRoutes = require("./routes/client.route");
 const ticketRoutes = require("./routes/ticket.route");
+const analyticsRoutes = require("./routes/analytics.route");
+const routeurInvoices = require("./routes/invoice.route");
 
 const app = express();
 
@@ -27,6 +29,13 @@ app.use("/api/prospect", prospectRoutes);
 app.use("/api/opportunities", opportunityRoutes);
 app.use("/api/client", clientRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/notifications", require("./routes/notification.route"));
+app.use("/api/client-users", require("./routes/clientUser.route"));
+app.use("/api/reports", require("./routes/report.route"));
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/invoices", routeurInvoices);
+
+
 
 // error handler (after routes)
 app.use(errorHandler);

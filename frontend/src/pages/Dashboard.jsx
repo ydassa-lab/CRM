@@ -2,9 +2,16 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout.jsx";
 
 // ADMIN
-import AdminHome from "./admin/AdminHome.jsx";
+import AnalyticsDashboard from "./dashboard/AnalyticsDashboard.jsx";
 import AdminUsers from "./admin/AdminUsers.jsx";
 // import AdminClients from "./admin/AdminClients.jsx";
+import Notifications from "./notifications/Notifications.jsx";
+import Invoices from "./billing/Invoices.jsx";
+import InvoiceCreate from "./billing/InvoiceCreate.jsx";
+import InvoiceDetails from "./billing/InvoiceDetails.jsx";
+import FinanceDashboard from "./billing/FinanceDashboard.jsx";
+import ManagerStats from "./manager/ManagerStats.jsx";
+
 
 // COMMERCIAL
 import CommercialProspects from "./commercial/CommercialProspects.jsx";
@@ -17,6 +24,8 @@ import Tickets from "../pages/Tickets.jsx";
 
 // SUPPORT
 import SupportTickets from "./support/SupportTickets.jsx";
+import TicketDetails from "./support/TicketDetails.jsx";
+
 
 // MANAGER
 // import ManagerStats from "./manager/ManagerStats.jsx";
@@ -31,7 +40,7 @@ export default function Dashboard({ role }) {
       <Routes>
 
         {/* --- PAGE D'ACCUEIL PAR DÉFAUT (toute personne connectée) --- */}
-        <Route path="/" element={<AdminHome />} />
+        <Route path="/" element={<AnalyticsDashboard />} />
 
         {/* --- ROUTES ADMIN --- */}
         {role === "admin" && (
@@ -65,6 +74,9 @@ export default function Dashboard({ role }) {
 
         {/* --- FALLBACK --- */}
         <Route path="*" element={<Navigate to="/" replace />} />
+
+         {/* 📌 NOUVELLE ROUTE NOTIFICATIONS */}
+    <Route path="notifications" element={<Notifications />} />
       </Routes>
     </DashboardLayout>
   );
@@ -76,14 +88,29 @@ export default function Dashboard({ role }) {
 function AdminRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<AdminHome />} />
+      <Route path="/" element={<AnalyticsDashboard />} />
+
+      {/* Gestion utilisateurs / clients / tickets */}
       <Route path="users" element={<AdminUsers />} />
       <Route path="clients" element={<Clients />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
       <Route path="tickets" element={<Tickets />} />
+      <Route path="tickets/:id" element={<TicketDetails role="admin" />} />
+
+      {/* 📌 FACTURATION */}
+      <Route path="billing" element={<Invoices />} />
+      <Route path="billing/new" element={<InvoiceCreate />} />
+      <Route path="billing/:id" element={<InvoiceDetails />} />
+
+      {/* 📊 📈 Dashboard Finance */}
+      <Route path="billing/dashboard" element={<FinanceDashboard />} />
+
+      {/* ⚠️ Toujours à la fin */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
+
+
 
 /* ============================================================
     ROUTES COMMERCIAL
@@ -122,10 +149,12 @@ function SupportRoutes() {
     <Routes>
       <Route path="/" element={<SupportTickets />} />
       <Route path="tickets" element={<SupportTickets />} />
+      <Route path="tickets/:id" element={<TicketDetails role="support" />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
+
 
 /* ============================================================
     ROUTES MANAGER
@@ -133,11 +162,15 @@ function SupportRoutes() {
 function ManagerRoutes() {
   return (
     <Routes>
-      {/* <Route path="/" element={<ManagerStats />} /> */}
+      <Route path="/" element={<ManagerStats />} />
+      <Route path="stats" element={<ManagerStats />} />
+      <Route path="tickets" element={<Tickets />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
+
+
 
 /* ============================================================
     ROUTES CLIENT
@@ -145,10 +178,9 @@ function ManagerRoutes() {
 function ClientRoutes() {
   return (
     <Routes>
-      {/* <Route path="profile" element={<ClientProfile />} /> */}
       <Route path="tickets" element={<ClientTickets />} />
-
-      {/* <Route path="*" element={<Navigate to="tickets" replace />} /> */}
+      <Route path="tickets/:id" element={<TicketDetails role="client" />} />
     </Routes>
   );
 }
+

@@ -29,9 +29,12 @@ const ROLE_LINKS = {
   admin: [
     { name: "Gestion utilisateurs", path: "/admin/users", icon: Users },
     { name: "Gestion clients", path: "/admin/clients", icon: Users },
-    { name: "Tickets", path: "/admin/tickets", icon: Ticket }
-  ],
+    { name: "Tickets", path: "/admin/tickets", icon: Ticket },
+    { name: "Facturation", path: "/admin/billing", icon: BarChart3 },
 
+    // 🔥 nouveau lien
+    { name: "Dashboard Facturation", path: "/admin/billing/dashboard", icon: BarChart3 }
+  ],
   commercial: [
     { name: "Prospects", path: "/commercial/prospects", icon: Target },
     { name: "Opportunités", path: "/commercial/opportunities", icon: TrendingUp },

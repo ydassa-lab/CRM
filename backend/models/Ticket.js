@@ -1,14 +1,10 @@
-// crm-backend/models/Ticket.js
-const mongoose = require("mongoose");
+const mongoose = require("mongoose");   // ← IMPORT MANQUANT (la cause de ton erreur)
 
 const ticketSchema = new mongoose.Schema({
   title: { type: String, required: true },
   message: { type: String, required: true },
 
-  // Qui a créé le ticket
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-
-  // Assigné à quel agent/support ?
   assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
 
   status: { 
@@ -17,11 +13,23 @@ const ticketSchema = new mongoose.Schema({
     default: "Ouvert" 
   },
 
+  priority: {
+    type: String,
+    enum: ["Faible", "Normal", "Urgent"],
+    default: "Normal"
+  },
+
+  attachment: {
+    type: String,
+    default: null
+  },
+
   responses: [
     {
       message: String,
       postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      createdAt: { type: Date, default: Date.now }
+      createdAt: { type: Date, default: Date.now },
+      attachment: String
     }
   ],
 
